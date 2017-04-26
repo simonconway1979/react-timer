@@ -25,12 +25,36 @@ var Countdown = React.createClass({
       }
     }
   },
+
+  // Lifecycle methods - Not used here but useful for reference
+  // componentWillUpdate: function (nextProps, nextState) {
+  //
+  // },
+  // componentWillMount: function () {
+  //   console.log('componentWillMount');
+  // },
+  // componentDidMount: function () {
+  //   console.log('componentDidMount');
+  // },
+  // componentWillReceiveProps: function (newProps) {
+  //   console.log('componentWillReceiveProps', newProps.countdownStatus);
+  // },
+  componentWillUnmount: function () {
+    console.log('componentDidUnmount');
+    clearInterval(this.timer);
+    this.timer = undefined;
+  },
   startTimer: function () {
     this.timer = setInterval(() => {
       var newCount = this.state.count - 1;
       this.setState({
         count: newCount >= 0 ? newCount : 0
       });
+
+      if (newCount === 0) {
+        this.setState({countdownStatus: 'stopped'});
+      };
+
     }, 1000);
   },
   handleSetCountdown: function (seconds) {
